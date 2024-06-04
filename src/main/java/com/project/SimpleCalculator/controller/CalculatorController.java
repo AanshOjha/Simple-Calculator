@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -41,7 +42,7 @@ public class CalculatorController {
     }
 
     @PostMapping("/db")
-    public ResponseEntity<String> saveToDB(@RequestBody Calculations calculations) {
+    public Calculations saveToDB(@RequestBody Calculations calculations) {
         String operation = calculations.getOperation();
         double a = calculations.getA();
         double b = calculations.getB();
@@ -61,22 +62,16 @@ public class CalculatorController {
         calculations.setOperation(operation);
 
         Calculations cal = calculatorRepository.save(calculations);
-        return ResponseEntity.created(URI.create("/calculator/" + cal.getId())).body(cal.toString());
+        return calculatorService.saveToDb(calculations);
     }
 
     @GetMapping("/getall")
-    public @ResponseBody Iterable<Calculations> getAll() {
-        return calculatorRepository.findAll();
+    public List<Calculations> getAll() {
+        return calculatorService.getAllCalculations();
     }
 
     @GetMapping("/get")
-    public @ResponseBody Optional<Calculations> getById(@RequestParam int id) {
-        return calculatorRepository.findById(id);
+    public Calculations getById(@RequestParam int id) {
+        return calculatorService.getById(id);
     }
-
-
-//    @PutMapping("/add")
-//    public ResponseEntity<String> calcuateWithPut(@RequestParam double a, @RequestParam double b) {
-//        return ResponseEntity.ok("Result: " + calculatorService.add(a, b));
-//    }
 }
