@@ -26,6 +26,11 @@ public class CalculatorController {
         this.calculatorRepository = calculatorRepository;
     }
 
+    @GetMapping()
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("Hello World");
+    }
+
     @GetMapping("/calculate")
     public ResponseEntity<Double> calculate(@RequestBody Calculations calculations) {
         String operation = calculations.getOperation();
@@ -73,5 +78,10 @@ public class CalculatorController {
     @GetMapping("/get")
     public Calculations getById(@RequestParam int id) {
         return calculatorService.getById(id);
+    }
+
+    @DeleteMapping("/delete")
+    public Calculations delete(@RequestParam int id) {
+        return calculatorService.deletebyId(id);
     }
 }

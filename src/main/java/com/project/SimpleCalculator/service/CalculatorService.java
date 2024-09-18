@@ -4,6 +4,7 @@ import com.project.SimpleCalculator.model.Calculations;
 import com.project.SimpleCalculator.repository.CalculatorRepository;
 import org.aspectj.weaver.tools.cache.CachedClassEntry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,5 +44,11 @@ public class CalculatorService {
 
     public Calculations saveToDb(Calculations calculations) {
         return calculatorRepository.save(calculations);
+    }
+
+    public Calculations deletebyId(int id) {
+        var found = calculatorRepository.findById(id).orElse(null);
+        calculatorRepository.deleteById(id);
+        return found;
     }
 }
