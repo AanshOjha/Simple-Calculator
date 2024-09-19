@@ -46,30 +46,6 @@ public class CalculatorController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/db")
-    public Calculations saveToDB(@RequestBody Calculations calculations) {
-        String operation = calculations.getOperation();
-        double a = calculations.getA();
-        double b = calculations.getB();
-        double result = switch (operation.toLowerCase()) {
-            case "add" -> calculatorService.add(a, b);
-            case "subtract" -> calculatorService.subtract(a, b);
-            case "multiply" -> calculatorService.multiply(a, b);
-            case "divide" -> calculatorService.divide(a, b);
-            default -> throw new IllegalArgumentException("Invalid operation.");
-        };
-
-
-        calculations.setId(new Random().nextInt(1, 100));
-        calculations.setA(a);
-        calculations.setB(b);
-        calculations.setResult(result);
-        calculations.setOperation(operation);
-
-        Calculations cal = calculatorRepository.save(calculations);
-        return calculatorService.saveToDb(calculations);
-    }
-
     @GetMapping("/getall")
     public List<Calculations> getAll() {
         return calculatorService.getAllCalculations();
@@ -84,4 +60,28 @@ public class CalculatorController {
     public Calculations delete(@RequestParam int id) {
         return calculatorService.deletebyId(id);
     }
+
+//    @PostMapping("/db")
+//    public Calculations saveToDB(@RequestBody Calculations calculations) {
+//        String operation = calculations.getOperation();
+//        double a = calculations.getA();
+//        double b = calculations.getB();
+//        double result = switch (operation.toLowerCase()) {
+//            case "add" -> calculatorService.add(a, b);
+//            case "subtract" -> calculatorService.subtract(a, b);
+//            case "multiply" -> calculatorService.multiply(a, b);
+//            case "divide" -> calculatorService.divide(a, b);
+//            default -> throw new IllegalArgumentException("Invalid operation.");
+//        };
+//
+//
+//        calculations.setId(new Random().nextInt(1, 100));
+//        calculations.setA(a);
+//        calculations.setB(b);
+//        calculations.setResult(result);
+//        calculations.setOperation(operation);
+//
+//        Calculations cal = calculatorRepository.save(calculations);
+//        return calculatorService.saveToDb(calculations);
+//    }
 }
